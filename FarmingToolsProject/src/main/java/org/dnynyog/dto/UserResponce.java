@@ -1,38 +1,59 @@
 package org.dnynyog.dto;
 
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 @Component
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponce {
-	private Integer id;
+	private  String code;
 	private String status;
-	private String responce;
-	private UserRequest request;
-	public Integer getId() {
-		return id;
+	private String message;
+	private LocalDateTime timestamp;
+	
+	public static UserResponce getInstance()
+	{
+		return new UserResponce();
 	}
-	public void setId(Integer id) {
-		this.id = id;
+
+	public String getCode() {
+		return code;
 	}
+
+	public UserResponce setCode(String code) {
+		this.code = code;
+		return this;
+	}
+
+	public UserResponce setStatus(String status) {
+		this.status = status;
+		return this;
+	}
+
+	public UserResponce setMessage(String message) {
+		this.message = message;
+		return this;
+	}
+
+	public UserResponce setTimestamp(LocalDateTime timestamp) {
+		this.timestamp = timestamp;
+		return this;
+	}
+
 	public String getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+
+	public String getMessage() {
+		return message;
 	}
-	public String getResponce() {
-		return responce;
+
+	public LocalDateTime getTimestamp() {
+		return timestamp;
 	}
-	public void setResponce(String responce) {
-		this.responce = responce;
-	}
-	public UserRequest getRequest() {
-		return request;
-	}
-	public void setRequest(UserRequest request) {
-		this.request = request;
-	}
+	
+
+	
+	
+
 }

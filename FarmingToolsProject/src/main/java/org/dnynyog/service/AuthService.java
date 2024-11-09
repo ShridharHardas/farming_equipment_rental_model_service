@@ -12,10 +12,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.stereotype.Component;
-
 @Component
 public class AuthService {
-
 	private static final String Secret_Key ="5F270B0EF2F0BAB8123A810368B0E4HS";
 	private static final String ALGORITHM="AES";
 	
@@ -56,4 +54,5 @@ public class AuthService {
 			throw new RuntimeException("Error generating AES key",e);
 		}
 	}
+
 }

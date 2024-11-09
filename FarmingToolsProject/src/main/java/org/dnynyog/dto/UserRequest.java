@@ -2,36 +2,27 @@ package org.dnynyog.dto;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Component
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserRequest {
-	private Integer id;
-	@NotNull(message = "User first name is mandetory ")
-	@NotBlank(message = "User First name should not be blank")
+	@NotBlank(message = "First Name Cannot be blank")
 	private String firstName;
-	@NotNull(message = "User last name is mandetory ")
-	@NotBlank(message = "User last name should not be blank")
+	@NotBlank(message = "Last Name Cannot be blank")
 	private String lastName;
-	@NotNull(message = "User email name is mandetory ")
-	@NotBlank(message = "User email name should not be blank")
-	@Email(message = "Enter the valid email format")
+	@NotBlank(message = "Email Cannot be blank")
 	@Pattern(regexp = "[a-z0-9]{3,50}(@)[a-z]{4,8}(.)[a-z]{3,5}", message = "Please!,Enter the valid email format")
 	private String email;
 	@Pattern(regexp = "[a-zA-Z0-9@$]{8}",message = "Please!,Enter the password At given format-@Test123")
+	@NotBlank(message = "Password Cannot be blank")
 	private String password;
-//	@NotBlank(message = "pincode is mandatory")
-//	@NotNull(message = "pincode should not be blank")
-	//@Pattern(regexp ="[0-9]{6}", message = "Please,Enter the valid Pincode")
+	//@NotBlank(message = "Pincode Cannot be blank")
+	//@Pattern(regexp = "[0-9]{4-6}",message = "Please,Enter the valid pincode")
 	private int pincode;
-	private Long mobileNo;
+	//@Pattern(regexp = "[0-9]{10-12}",message = "Please,Enter the valid mobile number")
+	//@NotBlank(message = "Mobile Number Cannot be blank")
+	private int mobileno;
 	public String getFirstName() {
 		return firstName;
 	}
@@ -62,10 +53,15 @@ public class UserRequest {
 	public void setPincode(int pincode) {
 		this.pincode = pincode;
 	}
-	public Long getMobileNo() {
-		return mobileNo;
+	public int getMobileno() {
+		return mobileno;
 	}
-	public void setMobileNo(Long mobileNo) {
-		this.mobileNo = mobileNo;
+	public void setMobileno(int mobileno) {
+		this.mobileno = mobileno;
 	}
+	
+	
+
+
+	
 }

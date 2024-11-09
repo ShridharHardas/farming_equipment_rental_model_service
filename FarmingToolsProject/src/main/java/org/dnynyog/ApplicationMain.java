@@ -1,12 +1,13 @@
 package org.dnynyog;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FarmingApplication {
+public class ApplicationMain {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FarmingApplication.class, args);
+		SpringApplication.run(ApplicationMain.class, args);
 
 	}
 
