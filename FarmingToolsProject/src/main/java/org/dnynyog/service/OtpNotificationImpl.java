@@ -2,7 +2,9 @@ package org.dnynyog.service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -13,7 +15,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.dnynyog.dto.UserRequest;
+import org.dnynyog.dto.OtpRequest;
 import org.dnynyog.dto.UserResponce;
 import org.dnynyog.entity.User;
 import org.dnynyog.enums.ResponceCode;
@@ -24,56 +26,36 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserRegistrationImple {
+public class OtpNotificationImpl {
 
 	@Autowired
 	UserRepo repo;
-	@Autowired
-	AuthService encrypt;
 	
-	
-	public UserResponce addUser(UserRequest request) throws Exception {
+	public UserResponce otpValidate(OtpRequest request) throws IOException
+	{
 		UserResponce responce=UserResponce.getInstance();
-		
-		if(request.getFirstName()==null || request.getEmail()==null ||
-			request.getLastName()==null || request.getPassword()==null ){
-			
-			return responce.setCode(ResponceCode.INCOMPLETE_DATA.getCode())
-			       .setStatus(ResponceCode.INCOMPLETE_DATA.getStatus())
-			       .setMessage(ResponceCode.INCOMPLETE_DATA.getMessage())
-				   .setTimestamp(LocalDateTime.now());
-		}
-		
-		User user=User.getInstance()
-				.setFirstName(request.getFirstName())
-				.setLastName(request.getLastName())
-				.setEmail(request.getEmail())
-				.setPassword(encrypt.encrypt(request.getPassword()))
-				.setPincode(request.getPincode())
-				.setMobileno(request.getMobileno());
-		 String subject="Thanks for registering on Farmer I-Connect";
-		 String body="Dear Sir/Madam"+"\n\n"+"Welcome "+request.getFirstName()+"\n\n"+"\tAs a farmer , choose a better way of farming. More economical, more environmental and human friendly"+
-				 "\nAs a farmer, share your equipment ride with the community for more savings.\n";
-		 String footer="\n\t\t\tBest regards,"+"\n"+"Farmer I-Connect";	
-		
-		try
+		Optional<User> user=Optional.ofNullable(repo.findByEmail(request.getEmail()));
+		if(user.isPresent())
 		{
-			User userTable=repo.save(user);
+			int otp=new Random().nextInt(900000)+100000;
+			String subject=otp+" OTP for login";
+			String body="Dear customer, use this One Time Password "+otp+" to log in to your Farmer I-Connect account. "
+					+ "This OTP will be valid for the next 5 mins.";
+			String footer="Best regards,\n Farmer I-Connect";
 			sendEmail(request.getEmail(), subject, body, footer);
-			return responce.setCode(ResponceCode.REGISTER_SUCCESS.getCode())
-					.setStatus(ResponceCode.REGISTER_SUCCESS.getStatus())
-					.setMessage(ResponceCode.REGISTER_SUCCESS.getMessage())
+			return responce.setCode(ResponceCode.OTP_SENT_SUCCESS.getCode())
+					.setStatus(ResponceCode.OTP_SENT_SUCCESS.getStatus())
+					.setMessage(ResponceCode.OTP_SENT_SUCCESS.getMessage())
 					.setTimestamp(LocalDateTime.now());
+			
 		}
-		catch(Exception e)
+		else
 		{
-			e.printStackTrace();
-			return responce.setCode(ResponceCode.CATCH_BLOCK_ERROR.getCode())
-					.setStatus(ResponceCode.CATCH_BLOCK_ERROR.getStatus())
-					.setMessage(ResponceCode.CATCH_BLOCK_ERROR.getMessage())
+			return responce.setCode(ResponceCode.OTP_SENT_FAILED.getCode())
+					.setStatus(ResponceCode.OTP_SENT_FAILED.getStatus())
+					.setMessage(ResponceCode.OTP_SENT_FAILED.getMessage())
 					.setTimestamp(LocalDateTime.now());
 		}
-				
 	}
 	private void sendEmail(String recipientEmail, String subject, String body, String footer) throws IOException {
         try {
@@ -111,6 +93,4 @@ public class UserRegistrationImple {
         inputStr = inputStr.replaceAll("[\\p{Cntrl}&&[^\r\n\t]]", "");
         return inputStr;
     }
-
-	
 }

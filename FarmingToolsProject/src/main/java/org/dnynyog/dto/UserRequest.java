@@ -22,7 +22,7 @@ public class UserRequest {
 	private int pincode;
 	//@Pattern(regexp = "[0-9]{10-12}",message = "Please,Enter the valid mobile number")
 	//@NotBlank(message = "Mobile Number Cannot be blank")
-	private int mobileno;
+	private long mobileno;
 	public String getFirstName() {
 		return firstName;
 	}
@@ -53,10 +53,10 @@ public class UserRequest {
 	public void setPincode(int pincode) {
 		this.pincode = pincode;
 	}
-	public int getMobileno() {
+	public long getMobileno() {
 		return mobileno;
 	}
-	public void setMobileno(int mobileno) {
+	public void setMobileno(long mobileno) {
 		this.mobileno = mobileno;
 	}
 	

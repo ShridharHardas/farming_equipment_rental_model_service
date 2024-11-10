@@ -30,7 +30,7 @@ public class User {
 	@Column(insertable = true,nullable = false)
 	private int pincode;
 	@Column(insertable = true,nullable = false)
-	private int mobileno;
+	private long mobileno;
 
 	public static  User getInstance()
 	{
@@ -95,7 +95,7 @@ public class User {
 		return mobileno;
 	}
 
-	public User setMobileno(int mobileno) {
+	public User setMobileno(long mobileno) {
 		this.mobileno = mobileno;
 		return this;
 	}
